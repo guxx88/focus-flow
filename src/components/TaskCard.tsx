@@ -2,7 +2,8 @@ import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Badge } from "@/components/ui/badge";
-import { Clock, ChevronDown, ChevronUp } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Clock, ChevronDown, ChevronUp, Trash2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 
@@ -79,6 +80,26 @@ const TaskCard = ({
     }
   };
 
+  const handleDelete = async () => {
+    try {
+      const { error } = await supabase
+        .from('tasks')
+        .delete()
+        .eq('id', id);
+
+      if (error) throw error;
+
+      toast({
+        title: "Tarefa removida",
+        description: "A tarefa foi excluída com sucesso.",
+      });
+
+      onUpdate();
+    } catch (error) {
+      console.error('Erro ao deletar tarefa:', error);
+    }
+  };
+
   return (
     <Card className={`p-4 border-2 transition-all duration-base hover:shadow-md ${completed ? 'opacity-60' : ''}`}>
       <div className="flex items-start gap-3">
@@ -93,7 +114,17 @@ const TaskCard = ({
             <h3 className={`font-medium ${completed ? 'line-through text-muted-foreground' : ''}`}>
               {title}
             </h3>
-            <div className={`w-2 h-2 rounded-full ${getPriorityDot(priority)} mt-2`} />
+            <div className="flex items-center gap-2">
+              <div className={`w-2 h-2 rounded-full ${getPriorityDot(priority)}`} />
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={handleDelete}
+                className="h-8 w-8 text-destructive hover:text-destructive hover:bg-destructive/10"
+              >
+                <Trash2 className="w-4 h-4" />
+              </Button>
+            </div>
           </div>
 
           <div className="flex flex-wrap items-center gap-2">

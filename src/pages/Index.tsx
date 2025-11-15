@@ -74,22 +74,21 @@ const Index = () => {
   const today = new Date().toDateString();
   const completedToday = tasks.filter(t => t.completed && new Date(t.created_at).toDateString() === today).length;
   const totalTimeToday = tasks.filter(t => t.completed && new Date(t.created_at).toDateString() === today).reduce((acc, t) => acc + (t.estimated_time || 0), 0);
-  
+
   // Calculate streak
   const calculateStreak = () => {
     const completedTasks = tasks.filter(t => t.completed);
     if (completedTasks.length === 0) return 0;
-    
+
     // Group tasks by date
     const tasksByDate = new Map<string, boolean>();
     completedTasks.forEach(task => {
       const date = new Date(task.created_at).toDateString();
       tasksByDate.set(date, true);
     });
-    
     let streak = 0;
     let currentDate = new Date();
-    
+
     // Check consecutive days from today backwards
     while (true) {
       const dateStr = currentDate.toDateString();
@@ -100,10 +99,8 @@ const Index = () => {
         break;
       }
     }
-    
     return streak;
   };
-  
   const currentStreak = calculateStreak();
   if (loading) {
     return <div className="min-h-screen flex items-center justify-center">
@@ -135,7 +132,7 @@ const Index = () => {
         {/* Main Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Left Column - Tasks */}
-          <div className="lg:col-span-2 space-y-6">
+          <div className="lg:col-span-2 space-y-6 bg-slate-50">
             {/* Quick Add */}
             <div>
               <h2 className="text-xl font-semibold mb-3">ADICIONAR NOVA TAREFA        </h2>
@@ -167,7 +164,7 @@ const Index = () => {
 
           {/* Right Column - Pomodoro */}
           <div className="lg:col-span-1">
-            <h2 className="text-xl font-semibold mb-3">FOCO TOTAL </h2>
+            <h2 className="text-xl mb-3 font-sans font-normal">FOCO TOTAL </h2>
             <PomodoroTimer />
           </div>
         </div>

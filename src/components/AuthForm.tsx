@@ -53,12 +53,10 @@ const AuthForm = () => {
     }
   };
   return <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background via-primary/5 to-background p-4">
-      <Card className="w-full max-w-md p-8 space-y-6 shadow-lg">
+      <Card className="w-full max-w-md p-8 space-y-6 shadow-lg bg-blue-100">
         <div className="text-center space-y-2">
           <h1 className="text-3xl bg-gradient-primary bg-clip-text font-bold text-sky-600">ALWAYS FOCUSED  </h1>
-          <p className="text-muted-foreground">
-            Sua produtividade potencializada por IA
-          </p>
+          
         </div>
 
         <form onSubmit={handleAuth} className="space-y-4">

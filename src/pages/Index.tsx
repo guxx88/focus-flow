@@ -136,7 +136,7 @@ const Index = () => {
 
           {/* Right Column - Pomodoro */}
           <div className="lg:col-span-1">
-            <h2 className="text-xl font-semibold mb-3">🍅 Pomodoro</h2>
+            <h2 className="text-xl font-semibold mb-3">FOCO TOTAL </h2>
             <PomodoroTimer />
           </div>
         </div>

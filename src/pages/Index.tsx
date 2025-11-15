@@ -145,9 +145,7 @@ const Index = () => {
                 📋 Tarefas Ativas ({activeTasks.length})
               </h2>
               <div className="space-y-3">
-                {activeTasks.length === 0 ? <p className="text-center text-muted-foreground py-8">
-                    Nenhuma tarefa ativa. Adicione uma acima! ⬆️
-                  </p> : activeTasks.map(task => <TaskCard key={task.id} id={task.id} title={task.title} category={task.category} priority={task.priority} estimatedTime={task.estimated_time} completed={task.completed} subtasks={task.subtasks || []} onUpdate={loadTasks} />)}
+                {activeTasks.length === 0 ? <p className="text-center text-muted-foreground py-8">Nenhuma tarefa ativa.    </p> : activeTasks.map(task => <TaskCard key={task.id} id={task.id} title={task.title} category={task.category} priority={task.priority} estimatedTime={task.estimated_time} completed={task.completed} subtasks={task.subtasks || []} onUpdate={loadTasks} />)}
               </div>
             </div>
 
@@ -164,7 +162,7 @@ const Index = () => {
 
           {/* Right Column - Pomodoro */}
           <div className="lg:col-span-1">
-            <h2 className="text-xl mb-3 font-sans font-normal">FOCO TOTAL </h2>
+            <h2 className="text-xl mb-3 font-sans font-semibold">FOCO TOTAL   </h2>
             <PomodoroTimer />
           </div>
         </div>

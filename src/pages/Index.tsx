@@ -74,6 +74,37 @@ const Index = () => {
   const today = new Date().toDateString();
   const completedToday = tasks.filter(t => t.completed && new Date(t.created_at).toDateString() === today).length;
   const totalTimeToday = tasks.filter(t => t.completed && new Date(t.created_at).toDateString() === today).reduce((acc, t) => acc + (t.estimated_time || 0), 0);
+  
+  // Calculate streak
+  const calculateStreak = () => {
+    const completedTasks = tasks.filter(t => t.completed);
+    if (completedTasks.length === 0) return 0;
+    
+    // Group tasks by date
+    const tasksByDate = new Map<string, boolean>();
+    completedTasks.forEach(task => {
+      const date = new Date(task.created_at).toDateString();
+      tasksByDate.set(date, true);
+    });
+    
+    let streak = 0;
+    let currentDate = new Date();
+    
+    // Check consecutive days from today backwards
+    while (true) {
+      const dateStr = currentDate.toDateString();
+      if (tasksByDate.has(dateStr)) {
+        streak++;
+        currentDate.setDate(currentDate.getDate() - 1);
+      } else {
+        break;
+      }
+    }
+    
+    return streak;
+  };
+  
+  const currentStreak = calculateStreak();
   if (loading) {
     return <div className="min-h-screen flex items-center justify-center">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
@@ -99,7 +130,7 @@ const Index = () => {
         </div>
 
         {/* Stats */}
-        <StatsCards completedToday={completedToday} totalTimeToday={totalTimeToday} currentStreak={3} />
+        <StatsCards completedToday={completedToday} totalTimeToday={totalTimeToday} currentStreak={currentStreak} />
 
         {/* Main Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">

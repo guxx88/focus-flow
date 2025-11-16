@@ -53,7 +53,7 @@ const AuthForm = () => {
     }
   };
   return <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background via-primary/5 to-background p-4">
-      <Card className="w-full max-w-md p-8 space-y-6 shadow-lg bg-slate-50">
+      <Card className="w-full max-w-md p-8 space-y-6 shadow-lg bg-slate-900">
         <div className="text-center space-y-2">
           <h1 className="text-3xl bg-gradient-primary bg-clip-text font-bold text-sky-600">ALWAYS FOCUSED  </h1>
           
@@ -68,7 +68,7 @@ const AuthForm = () => {
             <Input type="password" placeholder="Senha" value={password} onChange={e => setPassword(e.target.value)} required className="h-12" />
           </div>
 
-          <Button type="submit" className="w-full h-12 bg-gradient-primary hover:opacity-90 transition-opacity" disabled={isLoading}>
+          <Button type="submit" disabled={isLoading} className="w-full h-12 bg-gradient-primary hover:opacity-90 transition-opacity bg-[#8d60f0]">
             {isLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : isLogin ? "Entrar" : "Criar Conta"}
           </Button>
         </form>

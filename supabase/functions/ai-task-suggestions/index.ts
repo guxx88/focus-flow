@@ -77,6 +77,22 @@ Responda APENAS em JSON válido neste formato:
     if (!response.ok) {
       const errorText = await response.text();
       console.error('Erro da API:', response.status, errorText);
+      
+      // Handle specific rate limit error
+      if (response.status === 429) {
+        return new Response(
+          JSON.stringify({ 
+            error: 'RATE_LIMITED',
+            message: 'Muitas requisições. Por favor, aguarde um momento.',
+            details: errorText
+          }),
+          { 
+            status: 429,
+            headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+          }
+        );
+      }
+      
       throw new Error(`Erro da API: ${response.status}`);
     }
 

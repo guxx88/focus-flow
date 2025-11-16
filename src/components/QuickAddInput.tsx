@@ -14,12 +14,20 @@ interface Suggestions {
   estimatedTime: number;
   subtasks: string[];
 }
+
+const DEFAULT_SUGGESTIONS: Suggestions = {
+  category: 'pessoal',
+  priority: 'media',
+  estimatedTime: 30,
+  subtasks: []
+};
 const QuickAddInput = ({
   onTaskAdded
 }: QuickAddInputProps) => {
   const [input, setInput] = useState("");
   const [suggestions, setSuggestions] = useState<Suggestions | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [manualMode, setManualMode] = useState(false);
   const debounceTimerRef = useRef<NodeJS.Timeout | null>(null);
   const {
     toast
@@ -55,21 +63,27 @@ const QuickAddInput = ({
       });
       
       if (error) {
-        // Handle rate limit error
-        if (error.message?.includes('429')) {
+        // Handle rate limit specifically
+        if (error.message?.includes('429') || error.message?.includes('RATE_LIMITED')) {
+          setManualMode(true);
+          setSuggestions(DEFAULT_SUGGESTIONS);
           toast({
-            title: "Muitas requisições",
-            description: "Aguarde um momento antes de tentar novamente.",
-            variant: "destructive"
+            title: "Modo Manual Ativado",
+            description: "A IA está temporariamente indisponível. Você pode criar tarefas manualmente.",
+            variant: "default"
           });
+          return;
         }
         throw error;
       }
       
       setSuggestions(data);
+      setManualMode(false);
     } catch (error) {
       console.error('Erro ao obter sugestões:', error);
-      setSuggestions(null);
+      // Enable manual mode on any error
+      setManualMode(true);
+      setSuggestions(DEFAULT_SUGGESTIONS);
     } finally {
       setIsLoading(false);
     }
@@ -141,6 +155,14 @@ const QuickAddInput = ({
       </div>
 
       {suggestions && input && <div className="bg-card border-2 border-primary/20 rounded-xl p-4 space-y-4 animate-fade-in shadow-md">
+          {manualMode && (
+            <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-3 mb-3">
+              <p className="text-sm text-yellow-800 dark:text-yellow-200">
+                ⚠️ Modo Manual: Você pode personalizar as sugestões abaixo
+              </p>
+            </div>
+          )}
+          
           <div className="flex flex-wrap gap-2">
             <Badge className={getCategoryColor(suggestions.category)}>
               📚 {suggestions.category}

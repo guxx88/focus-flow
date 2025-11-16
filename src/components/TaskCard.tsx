@@ -3,9 +3,15 @@ import { Card } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Clock, ChevronDown, ChevronUp, Trash2 } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Clock, ChevronDown, ChevronUp, Trash2, X, Plus } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+
+interface Subtask {
+  text: string;
+  completed: boolean;
+}
 
 interface TaskCardProps {
   id: string;
@@ -29,6 +35,10 @@ const TaskCard = ({
   onUpdate 
 }: TaskCardProps) => {
   const [expanded, setExpanded] = useState(false);
+  const [editingSubtasks, setEditingSubtasks] = useState<Subtask[]>(
+    subtasks.map(s => ({ text: s, completed: false }))
+  );
+  const [newSubtask, setNewSubtask] = useState("");
   const { toast } = useToast();
 
   const getCategoryIcon = (cat: string) => {
@@ -100,6 +110,42 @@ const TaskCard = ({
     }
   };
 
+  const updateSubtasks = async (newSubtasks: Subtask[]) => {
+    try {
+      const subtasksText = newSubtasks.map(s => s.text);
+      const { error } = await supabase
+        .from('tasks')
+        .update({ subtasks: subtasksText })
+        .eq('id', id);
+
+      if (error) throw error;
+
+      setEditingSubtasks(newSubtasks);
+      onUpdate();
+    } catch (error) {
+      console.error('Erro ao atualizar subtarefas:', error);
+    }
+  };
+
+  const toggleSubtask = (index: number) => {
+    const updated = [...editingSubtasks];
+    updated[index].completed = !updated[index].completed;
+    setEditingSubtasks(updated);
+  };
+
+  const deleteSubtask = (index: number) => {
+    const updated = editingSubtasks.filter((_, i) => i !== index);
+    updateSubtasks(updated);
+  };
+
+  const addSubtask = () => {
+    if (newSubtask.trim()) {
+      const updated = [...editingSubtasks, { text: newSubtask, completed: false }];
+      updateSubtasks(updated);
+      setNewSubtask("");
+    }
+  };
+
   return (
     <Card className={`p-4 border-2 transition-all duration-base hover:shadow-md ${completed ? 'opacity-60' : ''}`}>
       <div className="flex items-start gap-3">
@@ -139,25 +185,57 @@ const TaskCard = ({
             )}
           </div>
 
-          {subtasks.length > 0 && (
+          {(subtasks.length > 0 || expanded) && (
             <div className="pt-2">
               <button
                 onClick={() => setExpanded(!expanded)}
                 className="flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors duration-fast"
               >
                 {expanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
-                {subtasks.length} subtarefas
+                {editingSubtasks.length} subtarefas
               </button>
               
               {expanded && (
-                <ul className="mt-2 space-y-1 ml-4 animate-fade-in">
-                  {subtasks.map((subtask, idx) => (
-                    <li key={idx} className="text-sm text-muted-foreground flex items-start gap-2">
-                      <span className="text-primary">•</span>
-                      <span>{subtask}</span>
-                    </li>
+                <div className="mt-3 space-y-2 animate-fade-in">
+                  {editingSubtasks.map((subtask, idx) => (
+                    <div key={idx} className="flex items-center gap-2 group">
+                      <Checkbox
+                        checked={subtask.completed}
+                        onCheckedChange={() => toggleSubtask(idx)}
+                        className="h-4 w-4"
+                      />
+                      <span className={`text-sm flex-1 ${subtask.completed ? 'line-through text-muted-foreground' : ''}`}>
+                        {subtask.text}
+                      </span>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => deleteSubtask(idx)}
+                        className="h-6 w-6 opacity-0 group-hover:opacity-100 transition-opacity text-destructive hover:text-destructive"
+                      >
+                        <X className="w-3 h-3" />
+                      </Button>
+                    </div>
                   ))}
-                </ul>
+                  
+                  <div className="flex gap-2 mt-3">
+                    <Input
+                      value={newSubtask}
+                      onChange={(e) => setNewSubtask(e.target.value)}
+                      onKeyDown={(e) => e.key === 'Enter' && addSubtask()}
+                      placeholder="Nova subtarefa..."
+                      className="text-sm h-8"
+                    />
+                    <Button
+                      onClick={addSubtask}
+                      size="icon"
+                      className="h-8 w-8"
+                      disabled={!newSubtask.trim()}
+                    >
+                      <Plus className="w-4 h-4" />
+                    </Button>
+                  </div>
+                </div>
               )}
             </div>
           )}

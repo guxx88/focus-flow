@@ -35,6 +35,10 @@ export default {
           DEFAULT: "hsl(var(--project))",
           foreground: "hsl(var(--project-foreground))",
         },
+        teal: {
+          DEFAULT: "hsl(var(--teal))",
+          foreground: "hsl(var(--teal-foreground))",
+        },
         secondary: {
           DEFAULT: "hsl(var(--secondary))",
           foreground: "hsl(var(--secondary-foreground))",
@@ -62,13 +66,17 @@ export default {
       },
       backgroundImage: {
         'gradient-primary': 'var(--gradient-primary)',
+        'gradient-purple': 'var(--gradient-purple)',
         'gradient-success': 'var(--gradient-success)',
         'gradient-urgent': 'var(--gradient-urgent)',
+        'gradient-teal': 'var(--gradient-teal)',
+        'gradient-card': 'var(--gradient-card)',
       },
       boxShadow: {
         'sm': 'var(--shadow-sm)',
         'md': 'var(--shadow-md)',
         'lg': 'var(--shadow-lg)',
+        'glow': 'var(--shadow-glow)',
       },
       transitionDuration: {
         'fast': 'var(--transition-fast)',

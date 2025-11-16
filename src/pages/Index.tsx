@@ -5,6 +5,7 @@ import QuickAddInput from "@/components/QuickAddInput";
 import TaskCard from "@/components/TaskCard";
 import PomodoroTimer from "@/components/PomodoroTimer";
 import StatsCards from "@/components/StatsCards";
+import CategoryFilter from "@/components/CategoryFilter";
 import { Button } from "@/components/ui/button";
 import { LogOut } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
@@ -22,6 +23,7 @@ const Index = () => {
   const [user, setUser] = useState<any>(null);
   const [tasks, setTasks] = useState<Task[]>([]);
   const [loading, setLoading] = useState(true);
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const {
     toast
   } = useToast();
@@ -110,8 +112,13 @@ const Index = () => {
   if (!user) {
     return <AuthForm />;
   }
-  const activeTasks = tasks.filter(t => !t.completed);
-  const completedTasks = tasks.filter(t => t.completed);
+  
+  const filteredTasks = selectedCategory
+    ? tasks.filter(t => t.category === selectedCategory)
+    : tasks;
+  
+  const activeTasks = filteredTasks.filter(t => !t.completed);
+  const completedTasks = filteredTasks.filter(t => t.completed);
   return <div className="min-h-screen bg-background">
       <div className="max-w-7xl mx-auto p-4 md:p-8 space-y-6">
         {/* Header */}

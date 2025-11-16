@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -20,6 +20,7 @@ const QuickAddInput = ({
   const [input, setInput] = useState("");
   const [suggestions, setSuggestions] = useState<Suggestions | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const debounceTimerRef = useRef<NodeJS.Timeout | null>(null);
   const {
     toast
   } = useToast();
@@ -40,30 +41,62 @@ const QuickAddInput = ({
     };
     return colors[priority as keyof typeof colors] || colors.media;
   };
-  const handleInputChange = async (value: string) => {
-    setInput(value);
-    if (value.length > 3) {
-      setIsLoading(true);
-      try {
-        const {
-          data,
-          error
-        } = await supabase.functions.invoke('ai-task-suggestions', {
-          body: {
-            input: value
-          }
-        });
-        if (error) throw error;
-        setSuggestions(data);
-      } catch (error) {
-        console.error('Erro ao obter sugestões:', error);
-      } finally {
-        setIsLoading(false);
-      }
-    } else {
+  const fetchSuggestions = async (value: string) => {
+    if (value.length <= 3) {
       setSuggestions(null);
+      setIsLoading(false);
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      const { data, error } = await supabase.functions.invoke('ai-task-suggestions', {
+        body: { input: value }
+      });
+      
+      if (error) {
+        // Handle rate limit error
+        if (error.message?.includes('429')) {
+          toast({
+            title: "Muitas requisições",
+            description: "Aguarde um momento antes de tentar novamente.",
+            variant: "destructive"
+          });
+        }
+        throw error;
+      }
+      
+      setSuggestions(data);
+    } catch (error) {
+      console.error('Erro ao obter sugestões:', error);
+      setSuggestions(null);
+    } finally {
+      setIsLoading(false);
     }
   };
+
+  const handleInputChange = (value: string) => {
+    setInput(value);
+    
+    // Clear previous timer
+    if (debounceTimerRef.current) {
+      clearTimeout(debounceTimerRef.current);
+    }
+    
+    // Only fetch if user stops typing for 800ms
+    debounceTimerRef.current = setTimeout(() => {
+      fetchSuggestions(value);
+    }, 800);
+  };
+
+  // Cleanup timer on unmount
+  useEffect(() => {
+    return () => {
+      if (debounceTimerRef.current) {
+        clearTimeout(debounceTimerRef.current);
+      }
+    };
+  }, []);
   const handleConfirm = async () => {
     if (!input.trim() || !suggestions) return;
     try {

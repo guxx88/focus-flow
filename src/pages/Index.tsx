@@ -6,6 +6,7 @@ import PomodoroTimer from "@/components/PomodoroTimer";
 import OverviewTab from "@/components/OverviewTab";
 import AnalyticsTab from "@/components/AnalyticsTab";
 import BrainDumpButton from "@/components/BrainDumpButton";
+import AIAssistant from "@/components/AIAssistant";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { LogOut, Home, BarChart3 } from "lucide-react";
@@ -192,8 +193,9 @@ const Index = () => {
         </Tabs>
       </div>
 
-      {/* Brain Dump Button - Floating */}
+      {/* Floating Buttons */}
       <BrainDumpButton />
+      <AIAssistant />
     </div>
   );
 };

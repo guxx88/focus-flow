@@ -4,11 +4,21 @@ import { Button } from "@/components/ui/button";
 import { Play, Pause, RotateCcw, Lightbulb } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Textarea } from "@/components/ui/textarea";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 
+type PomodoroLevel = "iniciante" | "equilibrado" | "intenso";
+
+const POMODORO_CONFIGS = {
+  iniciante: { work: 25, shortBreak: 5, longBreak: 15 },
+  equilibrado: { work: 45, shortBreak: 10, longBreak: 20 },
+  intenso: { work: 90, shortBreak: 15, longBreak: 30 },
+};
+
 const PomodoroTimer = () => {
-  const [minutes, setMinutes] = useState(25);
+  const [level, setLevel] = useState<PomodoroLevel>("iniciante");
+  const [minutes, setMinutes] = useState(POMODORO_CONFIGS.iniciante.work);
   const [seconds, setSeconds] = useState(0);
   const [isActive, setIsActive] = useState(false);
   const [distraction, setDistraction] = useState("");
@@ -44,7 +54,14 @@ const PomodoroTimer = () => {
 
   const resetTimer = () => {
     setIsActive(false);
-    setMinutes(25);
+    setMinutes(POMODORO_CONFIGS[level].work);
+    setSeconds(0);
+  };
+
+  const handleLevelChange = (newLevel: PomodoroLevel) => {
+    setLevel(newLevel);
+    setIsActive(false);
+    setMinutes(POMODORO_CONFIGS[newLevel].work);
     setSeconds(0);
   };
 
@@ -76,12 +93,24 @@ const PomodoroTimer = () => {
     }
   };
 
-  const progress = ((25 * 60 - (minutes * 60 + seconds)) / (25 * 60)) * 100;
+  const totalSeconds = POMODORO_CONFIGS[level].work * 60;
+  const progress = ((totalSeconds - (minutes * 60 + seconds)) / totalSeconds) * 100;
 
   return (
     <Card className="p-6 bg-gradient-primary text-white border-0 shadow-lg">
       <div className="text-center space-y-4">
         <h2 className="text-2xl font-bold">Modo Foco</h2>
+        
+        <Select value={level} onValueChange={handleLevelChange} disabled={isActive}>
+          <SelectTrigger className="w-full bg-white/10 border-white/20 text-white">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="iniciante">🌱 Iniciante ({POMODORO_CONFIGS.iniciante.work} min)</SelectItem>
+            <SelectItem value="equilibrado">⚖️ Equilibrado ({POMODORO_CONFIGS.equilibrado.work} min)</SelectItem>
+            <SelectItem value="intenso">🔥 Intenso ({POMODORO_CONFIGS.intenso.work} min)</SelectItem>
+          </SelectContent>
+        </Select>
         
         <div className="relative w-48 h-48 mx-auto">
           <svg className="transform -rotate-90 w-48 h-48">

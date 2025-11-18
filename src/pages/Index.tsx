@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { useKeyboardShortcuts } from "@/hooks/useKeyboardShortcuts";
 import AuthForm from "@/components/AuthForm";
 import QuickAddInput from "@/components/QuickAddInput";
 import PomodoroTimer from "@/components/PomodoroTimer";
@@ -29,7 +30,37 @@ const Index = () => {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [currentTab, setCurrentTab] = useState("overview");
+  const quickAddRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
+
+  const shortcuts = [
+    {
+      key: "n",
+      description: "Adicionar nova tarefa",
+      action: () => {
+        setCurrentTab("overview");
+        setTimeout(() => quickAddRef.current?.focus(), 100);
+      },
+    },
+    {
+      key: "c",
+      description: "Abrir calendário",
+      action: () => setCurrentTab("calendar"),
+    },
+    {
+      key: "a",
+      description: "Ver estatísticas",
+      action: () => setCurrentTab("analytics"),
+    },
+    {
+      key: "v",
+      description: "Visão geral",
+      action: () => setCurrentTab("overview"),
+    },
+  ];
+
+  const { ShortcutsHelp } = useKeyboardShortcuts(shortcuts);
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -147,8 +178,11 @@ const Index = () => {
           </Button>
         </div>
 
+        {/* Keyboard Shortcuts Help */}
+        <ShortcutsHelp />
+
         {/* Main Tabs */}
-        <Tabs defaultValue="overview" className="space-y-6">
+        <Tabs value={currentTab} onValueChange={setCurrentTab} className="space-y-6">
           <TabsList className="grid w-full max-w-2xl mx-auto grid-cols-3">
             <TabsTrigger value="overview" className="gap-2">
               <Home className="w-4 h-4" />
@@ -170,7 +204,7 @@ const Index = () => {
                 {/* Quick Add */}
                 <div>
                   <h2 className="text-xl font-bold mb-4">Adicionar Nova Tarefa</h2>
-                  <QuickAddInput onTaskAdded={loadTasks} />
+                  <QuickAddInput onTaskAdded={loadTasks} inputRef={quickAddRef} />
                 </div>
 
                 {/* Overview Content */}

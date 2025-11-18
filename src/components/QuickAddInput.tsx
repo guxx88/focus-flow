@@ -7,6 +7,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 interface QuickAddInputProps {
   onTaskAdded: () => void;
+  inputRef?: React.RefObject<HTMLInputElement>;
 }
 interface Suggestions {
   category: string;
@@ -22,7 +23,8 @@ const DEFAULT_SUGGESTIONS: Suggestions = {
   subtasks: []
 };
 const QuickAddInput = ({
-  onTaskAdded
+  onTaskAdded,
+  inputRef
 }: QuickAddInputProps) => {
   const [input, setInput] = useState("");
   const [suggestions, setSuggestions] = useState<Suggestions | null>(null);
@@ -149,7 +151,13 @@ const QuickAddInput = ({
   };
   return <div className="w-full space-y-3">
       <div className="relative">
-        <Input value={input} onChange={e => handleInputChange(e.target.value)} placeholder="Digite qualquer coisa... 'estudar matemática cap 5'" className="w-full h-14 text-lg pr-12 border-2 focus:border-primary transition-all duration-base mx-0 my-0 px-0 py-0" />
+        <Input 
+          ref={inputRef}
+          value={input} 
+          onChange={e => handleInputChange(e.target.value)} 
+          placeholder="Digite qualquer coisa... 'estudar matemática cap 5'" 
+          className="w-full h-14 text-lg pr-12 border-2 focus:border-primary transition-all duration-base mx-0 my-0 px-0 py-0" 
+        />
         {isLoading && <Loader2 className="absolute right-4 top-1/2 -translate-y-1/2 h-5 w-5 animate-spin text-primary" />}
         {!isLoading && input && <Sparkles className="absolute right-4 top-1/2 -translate-y-1/2 h-5 w-5 text-primary animate-pulse" />}
       </div>

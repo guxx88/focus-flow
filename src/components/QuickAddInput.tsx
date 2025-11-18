@@ -30,7 +30,10 @@ const QuickAddInput = ({
   const [suggestions, setSuggestions] = useState<Suggestions | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [manualMode, setManualMode] = useState(false);
+  const [autocomplete, setAutocomplete] = useState("");
+  const [isLoadingAutocomplete, setIsLoadingAutocomplete] = useState(false);
   const debounceTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const autocompleteTimerRef = useRef<NodeJS.Timeout | null>(null);
   const {
     toast
   } = useToast();
@@ -93,6 +96,20 @@ const QuickAddInput = ({
 
   const handleInputChange = (value: string) => {
     setInput(value);
+    setAutocomplete("");
+
+    // Debounce autocomplete
+    if (autocompleteTimerRef.current) {
+      clearTimeout(autocompleteTimerRef.current);
+    }
+
+    if (value.length >= 3) {
+      autocompleteTimerRef.current = setTimeout(() => {
+        fetchAutocomplete(value);
+      }, 300);
+    }
+
+    // Existing suggestion debounce
     
     // Clear previous timer
     if (debounceTimerRef.current) {
@@ -111,8 +128,31 @@ const QuickAddInput = ({
       if (debounceTimerRef.current) {
         clearTimeout(debounceTimerRef.current);
       }
+      if (autocompleteTimerRef.current) {
+        clearTimeout(autocompleteTimerRef.current);
+      }
     };
   }, []);
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Tab" && autocomplete) {
+      e.preventDefault();
+      const newValue = input + autocomplete;
+      setInput(newValue);
+      setAutocomplete("");
+      handleInputChange(newValue);
+    }
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Tab" && autocomplete) {
+      e.preventDefault();
+      const newValue = input + autocomplete;
+      setInput(newValue);
+      setAutocomplete("");
+      handleInputChange(newValue);
+    }
+  };
   const handleConfirm = async () => {
     if (!input.trim() || !suggestions) return;
     try {
@@ -154,10 +194,17 @@ const QuickAddInput = ({
         <Input 
           ref={inputRef}
           value={input} 
-          onChange={e => handleInputChange(e.target.value)} 
+          onChange={e => handleInputChange(e.target.value)}
+          onKeyDown={handleKeyDown}
           placeholder="Digite qualquer coisa... 'estudar matemática cap 5'" 
           className="w-full h-14 text-lg pr-12 border-2 focus:border-primary transition-all duration-base mx-0 my-0 px-0 py-0" 
         />
+        {autocomplete && (
+          <div className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none text-lg text-muted-foreground/40">
+            <span className="invisible">{input}</span>
+            <span>{autocomplete}</span>
+          </div>
+        )}
         {isLoading && <Loader2 className="absolute right-4 top-1/2 -translate-y-1/2 h-5 w-5 animate-spin text-primary" />}
         {!isLoading && input && <Sparkles className="absolute right-4 top-1/2 -translate-y-1/2 h-5 w-5 text-primary animate-pulse" />}
       </div>

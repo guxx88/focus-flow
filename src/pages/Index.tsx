@@ -5,11 +5,12 @@ import QuickAddInput from "@/components/QuickAddInput";
 import PomodoroTimer from "@/components/PomodoroTimer";
 import OverviewTab from "@/components/OverviewTab";
 import AnalyticsTab from "@/components/AnalyticsTab";
+import CalendarModule from "@/components/CalendarModule";
 import BrainDumpButton from "@/components/BrainDumpButton";
 import AIAssistant from "@/components/AIAssistant";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { LogOut, Home, BarChart3 } from "lucide-react";
+import { LogOut, Home, BarChart3, Calendar } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 interface Task {
@@ -148,10 +149,14 @@ const Index = () => {
 
         {/* Main Tabs */}
         <Tabs defaultValue="overview" className="space-y-6">
-          <TabsList className="grid w-full max-w-md mx-auto grid-cols-2">
+          <TabsList className="grid w-full max-w-2xl mx-auto grid-cols-3">
             <TabsTrigger value="overview" className="gap-2">
               <Home className="w-4 h-4" />
               Visão Geral
+            </TabsTrigger>
+            <TabsTrigger value="calendar" className="gap-2">
+              <Calendar className="w-4 h-4" />
+              Calendário
             </TabsTrigger>
             <TabsTrigger value="analytics" className="gap-2">
               <BarChart3 className="w-4 h-4" />
@@ -185,6 +190,10 @@ const Index = () => {
                 <PomodoroTimer />
               </div>
             </div>
+          </TabsContent>
+
+          <TabsContent value="calendar">
+            <CalendarModule tasks={tasks} />
           </TabsContent>
 
           <TabsContent value="analytics">

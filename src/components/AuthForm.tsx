@@ -53,7 +53,7 @@ const AuthForm = () => {
     }
   };
   return <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background via-primary/5 to-background p-4">
-      <Card className="w-full max-w-md p-8 space-y-6 shadow-lg bg-slate-900">
+      <Card className="w-full max-w-md p-8 space-y-6 shadow-lg bg-[#0e0f16]">
         <div className="text-center space-y-2">
           <h1 className="text-3xl bg-gradient-primary bg-clip-text font-bold text-[#8d60f0]">ALWAYS FOCUSED  </h1>
           

@@ -94,6 +94,26 @@ const QuickAddInput = ({
     }
   };
 
+  const fetchAutocomplete = async (value: string) => {
+    setIsLoadingAutocomplete(true);
+    try {
+      const { data, error } = await supabase.functions.invoke('task-autocomplete', {
+        body: { input: value }
+      });
+      
+      if (error) throw error;
+      
+      if (data?.completion) {
+        setAutocomplete(data.completion);
+      }
+    } catch (error) {
+      console.error('Erro ao obter autocomplete:', error);
+      setAutocomplete("");
+    } finally {
+      setIsLoadingAutocomplete(false);
+    }
+  };
+
   const handleInputChange = (value: string) => {
     setInput(value);
     setAutocomplete("");
@@ -133,16 +153,6 @@ const QuickAddInput = ({
       }
     };
   }, []);
-
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Tab" && autocomplete) {
-      e.preventDefault();
-      const newValue = input + autocomplete;
-      setInput(newValue);
-      setAutocomplete("");
-      handleInputChange(newValue);
-    }
-  };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Tab" && autocomplete) {

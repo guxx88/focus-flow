@@ -27,6 +27,7 @@ interface Task {
 
 const Index = () => {
   const [user, setUser] = useState<any>(null);
+  const [userProfile, setUserProfile] = useState<any>(null);
   const [tasks, setTasks] = useState<Task[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
@@ -80,8 +81,23 @@ const Index = () => {
   useEffect(() => {
     if (user) {
       loadTasks();
+      loadUserProfile();
     }
   }, [user]);
+
+  const loadUserProfile = async () => {
+    if (!user) return;
+    
+    const { data, error } = await supabase
+      .from("profiles")
+      .select("full_name")
+      .eq("id", user.id)
+      .single();
+
+    if (!error && data) {
+      setUserProfile(data);
+    }
+  };
 
   const loadTasks = async () => {
     const { data, error } = await supabase
@@ -177,7 +193,7 @@ const Index = () => {
       <div className="ml-20 min-h-screen">
         <div className="max-w-[1600px] mx-auto p-6 md:p-8 space-y-6">
           {/* Header */}
-          <DashboardHeader userName="Georg Johnson" />
+          <DashboardHeader userName={userProfile?.full_name || user?.email || "Usuário"} />
 
           {/* Keyboard Shortcuts Help */}
           <ShortcutsHelp />

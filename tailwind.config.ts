@@ -66,16 +66,21 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        sidebar: {
+          DEFAULT: "hsl(var(--sidebar))",
+          hover: "hsl(var(--sidebar-hover))",
+        },
       },
       backgroundImage: {
         'gradient-primary': 'var(--gradient-primary)',
+        'gradient-blue': 'var(--gradient-blue)',
         'gradient-purple': 'var(--gradient-purple)',
         'gradient-success': 'var(--gradient-success)',
-        'gradient-urgent': 'var(--gradient-urgent)',
-        'gradient-teal': 'var(--gradient-teal)',
         'gradient-card': 'var(--gradient-card)',
+        'gradient-glow': 'var(--gradient-glow)',
       },
       boxShadow: {
+        'glass': 'var(--shadow-glass)',
         'sm': 'var(--shadow-sm)',
         'md': 'var(--shadow-md)',
         'lg': 'var(--shadow-lg)',

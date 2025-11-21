@@ -2,6 +2,9 @@ import { useEffect, useState, useRef } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useKeyboardShortcuts } from "@/hooks/useKeyboardShortcuts";
 import AuthForm from "@/components/AuthForm";
+import Sidebar from "@/components/Sidebar";
+import DashboardHeader from "@/components/DashboardHeader";
+import GlassCard from "@/components/GlassCard";
 import QuickAddInput from "@/components/QuickAddInput";
 import PomodoroTimer from "@/components/PomodoroTimer";
 import OverviewTab from "@/components/OverviewTab";
@@ -9,9 +12,6 @@ import AnalyticsTab from "@/components/AnalyticsTab";
 import CalendarModule from "@/components/CalendarModule";
 import BrainDumpButton from "@/components/BrainDumpButton";
 import AIAssistant from "@/components/AIAssistant";
-import { Button } from "@/components/ui/button";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { LogOut, Home, BarChart3, Calendar } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 interface Task {
@@ -166,46 +166,31 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <div className="max-w-7xl mx-auto p-4 md:p-8 space-y-6">
-        {/* Header */}
-        <div className="flex items-center justify-between">
-          <h1 className="text-3xl md:text-4xl font-extrabold bg-gradient-primary bg-clip-text text-transparent">
-            ALWAYS FOCUSED
-          </h1>
-          <Button variant="outline" onClick={handleLogout} className="gap-2">
-            <LogOut className="w-4 h-4" />
-            Sair
-          </Button>
-        </div>
+      {/* Sidebar */}
+      <Sidebar 
+        currentTab={currentTab} 
+        onTabChange={setCurrentTab} 
+        onLogout={handleLogout}
+      />
 
-        {/* Keyboard Shortcuts Help */}
-        <ShortcutsHelp />
+      {/* Main Content Area with left margin for sidebar */}
+      <div className="ml-20 min-h-screen">
+        <div className="max-w-[1600px] mx-auto p-6 md:p-8 space-y-6">
+          {/* Header */}
+          <DashboardHeader userName="Georg Johnson" />
 
-        {/* Main Tabs */}
-        <Tabs value={currentTab} onValueChange={setCurrentTab} className="space-y-6">
-          <TabsList className="grid w-full max-w-2xl mx-auto grid-cols-3">
-            <TabsTrigger value="overview" className="gap-2">
-              <Home className="w-4 h-4" />
-              Visão Geral
-            </TabsTrigger>
-            <TabsTrigger value="calendar" className="gap-2">
-              <Calendar className="w-4 h-4" />
-              Calendário
-            </TabsTrigger>
-            <TabsTrigger value="analytics" className="gap-2">
-              <BarChart3 className="w-4 h-4" />
-              Estatísticas
-            </TabsTrigger>
-          </TabsList>
+          {/* Keyboard Shortcuts Help */}
+          <ShortcutsHelp />
 
-          <TabsContent value="overview" className="space-y-6">
+          {/* Main Content based on current tab */}
+          {currentTab === "overview" && (
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
               <div className="lg:col-span-2 space-y-6">
                 {/* Quick Add */}
-                <div>
+                <GlassCard>
                   <h2 className="text-xl font-bold mb-4">Adicionar Nova Tarefa</h2>
                   <QuickAddInput onTaskAdded={loadTasks} inputRef={quickAddRef} />
-                </div>
+                </GlassCard>
 
                 {/* Overview Content */}
                 <OverviewTab
@@ -220,20 +205,22 @@ const Index = () => {
 
               {/* Pomodoro Timer */}
               <div className="lg:col-span-1">
-                <h2 className="text-xl font-bold mb-4">Foco Total</h2>
-                <PomodoroTimer />
+                <GlassCard>
+                  <h2 className="text-xl font-bold mb-4">Foco Total</h2>
+                  <PomodoroTimer />
+                </GlassCard>
               </div>
             </div>
-          </TabsContent>
+          )}
 
-          <TabsContent value="calendar">
+          {currentTab === "calendar" && (
             <CalendarModule tasks={tasks} />
-          </TabsContent>
+          )}
 
-          <TabsContent value="analytics">
+          {currentTab === "analytics" && (
             <AnalyticsTab tasks={tasks} />
-          </TabsContent>
-        </Tabs>
+          )}
+        </div>
       </div>
 
       {/* Floating Buttons */}

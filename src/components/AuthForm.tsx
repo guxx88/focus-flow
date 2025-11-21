@@ -8,6 +8,7 @@ import { Loader2 } from "lucide-react";
 const AuthForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [fullName, setFullName] = useState("");
   const [isLogin, setIsLogin] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const {
@@ -34,7 +35,13 @@ const AuthForm = () => {
           error
         } = await supabase.auth.signUp({
           email,
-          password
+          password,
+          options: {
+            data: {
+              full_name: fullName
+            },
+            emailRedirectTo: `${window.location.origin}/`
+          }
         });
         if (error) throw error;
         toast({
@@ -60,6 +67,19 @@ const AuthForm = () => {
         </div>
 
         <form onSubmit={handleAuth} className="space-y-4">
+          {!isLogin && (
+            <div className="space-y-2">
+              <Input 
+                type="text" 
+                placeholder="Nome completo" 
+                value={fullName} 
+                onChange={e => setFullName(e.target.value)} 
+                required={!isLogin}
+                className="h-12" 
+              />
+            </div>
+          )}
+
           <div className="space-y-2">
             <Input type="email" placeholder="Email" value={email} onChange={e => setEmail(e.target.value)} required className="h-12" />
           </div>

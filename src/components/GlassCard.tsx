@@ -11,7 +11,7 @@ const GlassCard = ({ children, className, hover = false }: GlassCardProps) => {
   return (
     <div
       className={cn(
-        "glass rounded-3xl p-6",
+        "glass rounded-2xl p-6",
         hover && "glass-hover cursor-pointer",
         className
       )}

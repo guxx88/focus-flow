@@ -78,6 +78,7 @@ export default {
         'gradient-success': 'var(--gradient-success)',
         'gradient-card': 'var(--gradient-card)',
         'gradient-glow': 'var(--gradient-glow)',
+        'gradient-sidebar': 'var(--gradient-sidebar)',
       },
       boxShadow: {
         'glass': 'var(--shadow-glass)',
@@ -85,6 +86,7 @@ export default {
         'md': 'var(--shadow-md)',
         'lg': 'var(--shadow-lg)',
         'glow': 'var(--shadow-glow)',
+        'button': 'var(--shadow-button)',
       },
       transitionDuration: {
         'fast': 'var(--transition-fast)',

@@ -147,7 +147,7 @@ const TaskCard = ({
   };
 
   return (
-    <Card className={`p-4 border-2 transition-all duration-base hover:shadow-md ${completed ? 'opacity-60' : ''}`}>
+    <div className={`glass-subtle rounded-xl p-4 transition-all hover:bg-card/60 ${completed ? 'opacity-50' : ''}`}>
       <div className="flex items-start gap-3">
         <Checkbox 
           checked={completed}
@@ -241,7 +241,7 @@ const TaskCard = ({
           )}
         </div>
       </div>
-    </Card>
+    </div>
   );
 };
 

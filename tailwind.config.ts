@@ -76,8 +76,9 @@ export default {
         'gradient-blue': 'var(--gradient-blue)',
         'gradient-purple': 'var(--gradient-purple)',
         'gradient-success': 'var(--gradient-success)',
+        'gradient-urgent': 'var(--gradient-urgent)',
+        'gradient-teal': 'var(--gradient-teal)',
         'gradient-card': 'var(--gradient-card)',
-        'gradient-glow': 'var(--gradient-glow)',
         'gradient-sidebar': 'var(--gradient-sidebar)',
       },
       boxShadow: {

@@ -59,11 +59,11 @@ const AuthForm = () => {
       setIsLoading(false);
     }
   };
-  return <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background via-primary/5 to-background p-4">
-      <Card className="w-full max-w-md p-8 space-y-6 shadow-lg bg-[#0e0f16]">
+  return (
+    <div className="min-h-screen flex items-center justify-center p-4">
+      <Card className="w-full max-w-md p-8 space-y-6">
         <div className="text-center space-y-2">
-          <h1 className="text-3xl bg-gradient-primary bg-clip-text font-bold text-[#8d60f0]">ALWAYS FOCUSED  </h1>
-          
+          <h1 className="text-2xl font-bold text-primary">ALWAYS FOCUSED</h1>
         </div>
 
         <form onSubmit={handleAuth} className="space-y-4">
@@ -75,30 +75,52 @@ const AuthForm = () => {
                 value={fullName} 
                 onChange={e => setFullName(e.target.value)} 
                 required={!isLogin}
-                className="h-12" 
+                className="h-11" 
               />
             </div>
           )}
 
           <div className="space-y-2">
-            <Input type="email" placeholder="Email" value={email} onChange={e => setEmail(e.target.value)} required className="h-12" />
+            <Input 
+              type="email" 
+              placeholder="Email" 
+              value={email} 
+              onChange={e => setEmail(e.target.value)} 
+              required 
+              className="h-11" 
+            />
           </div>
 
           <div className="space-y-2">
-            <Input type="password" placeholder="Senha" value={password} onChange={e => setPassword(e.target.value)} required className="h-12" />
+            <Input 
+              type="password" 
+              placeholder="Senha" 
+              value={password} 
+              onChange={e => setPassword(e.target.value)} 
+              required 
+              className="h-11" 
+            />
           </div>
 
-          <Button type="submit" disabled={isLoading} className="w-full h-12 bg-gradient-primary hover:opacity-90 transition-opacity bg-[#8d60f0]">
+          <Button 
+            type="submit" 
+            disabled={isLoading} 
+            className="w-full h-11"
+          >
             {isLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : isLogin ? "Entrar" : "Criar Conta"}
           </Button>
         </form>
 
         <div className="text-center">
-          <button onClick={() => setIsLogin(!isLogin)} className="text-sm text-muted-foreground hover:text-primary transition-colors">
+          <button 
+            onClick={() => setIsLogin(!isLogin)} 
+            className="text-sm text-muted-foreground hover:text-primary transition-colors"
+          >
             {isLogin ? "Não tem conta? Criar uma" : "Já tem conta? Entrar"}
           </button>
         </div>
       </Card>
-    </div>;
+    </div>
+  );
 };
 export default AuthForm;

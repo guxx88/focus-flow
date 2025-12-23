@@ -159,16 +159,6 @@ All colors MUST be HSL.
   }
 
   .stat-card {
-    @apply glass rounded-2xl p-5 relative overflow-hidden;
-  }
-
-  .stat-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, hsl(220 90% 56% / 0.3), transparent);
+    @apply glass rounded-2xl p-5;
   }
 }

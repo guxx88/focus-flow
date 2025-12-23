@@ -33,66 +33,46 @@ export default function OverviewTab({
   return (
     <div className="space-y-6">
       {/* Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <Card className="overflow-hidden">
-          <CardHeader className="pb-3">
-            <CardTitle className="text-sm font-medium text-muted-foreground flex items-center gap-2">
-              <CheckCircle2 className="w-4 h-4 text-success" />
-              Concluídas Hoje
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-4xl font-bold bg-gradient-success bg-clip-text text-transparent">
-              {completedToday}
-            </p>
-            <p className="text-xs text-muted-foreground mt-1">tarefas finalizadas</p>
-          </CardContent>
-        </Card>
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="stat-card">
+          <div className="flex items-center gap-3 mb-3">
+            <div className="w-10 h-10 rounded-xl bg-success/20 flex items-center justify-center">
+              <CheckCircle2 className="w-5 h-5 text-success" />
+            </div>
+          </div>
+          <p className="text-3xl font-bold text-foreground mb-1">{completedToday}</p>
+          <p className="text-sm text-muted-foreground">Concluídas Hoje</p>
+        </div>
 
-        <Card className="overflow-hidden">
-          <CardHeader className="pb-3">
-            <CardTitle className="text-sm font-medium text-muted-foreground flex items-center gap-2">
-              <Clock className="w-4 h-4 text-teal" />
-              Tempo Focado
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-4xl font-bold bg-gradient-teal bg-clip-text text-transparent">
-              {totalTimeToday}
-            </p>
-            <p className="text-xs text-muted-foreground mt-1">minutos de foco</p>
-          </CardContent>
-        </Card>
+        <div className="stat-card">
+          <div className="flex items-center gap-3 mb-3">
+            <div className="w-10 h-10 rounded-xl bg-teal/20 flex items-center justify-center">
+              <Clock className="w-5 h-5 text-teal" />
+            </div>
+          </div>
+          <p className="text-3xl font-bold text-foreground mb-1">{totalTimeToday}<span className="text-lg text-muted-foreground ml-1">min</span></p>
+          <p className="text-sm text-muted-foreground">Tempo Focado</p>
+        </div>
 
-        <Card className="overflow-hidden">
-          <CardHeader className="pb-3">
-            <CardTitle className="text-sm font-medium text-muted-foreground flex items-center gap-2">
-              <ListTodo className="w-4 h-4 text-urgent" />
-              Tarefas Restantes
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-4xl font-bold bg-gradient-urgent bg-clip-text text-transparent">
-              {activeTasks.length}
-            </p>
-            <p className="text-xs text-muted-foreground mt-1">aguardando conclusão</p>
-          </CardContent>
-        </Card>
+        <div className="stat-card">
+          <div className="flex items-center gap-3 mb-3">
+            <div className="w-10 h-10 rounded-xl bg-urgent/20 flex items-center justify-center">
+              <ListTodo className="w-5 h-5 text-urgent" />
+            </div>
+          </div>
+          <p className="text-3xl font-bold text-foreground mb-1">{activeTasks.length}</p>
+          <p className="text-sm text-muted-foreground">Tarefas Restantes</p>
+        </div>
 
-        <Card className="overflow-hidden">
-          <CardHeader className="pb-3">
-            <CardTitle className="text-sm font-medium text-muted-foreground flex items-center gap-2">
-              <Flame className="w-4 h-4 text-primary" />
-              Sequência
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-4xl font-bold bg-gradient-primary bg-clip-text text-transparent">
-              {currentStreak}
-            </p>
-            <p className="text-xs text-muted-foreground mt-1">dias consecutivos</p>
-          </CardContent>
-        </Card>
+        <div className="stat-card">
+          <div className="flex items-center gap-3 mb-3">
+            <div className="w-10 h-10 rounded-xl bg-primary/20 flex items-center justify-center">
+              <Flame className="w-5 h-5 text-primary" />
+            </div>
+          </div>
+          <p className="text-3xl font-bold text-foreground mb-1">{currentStreak}<span className="text-lg text-muted-foreground ml-1">dias</span></p>
+          <p className="text-sm text-muted-foreground">Sequência</p>
+        </div>
       </div>
 
       {/* Active Tasks */}

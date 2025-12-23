@@ -97,20 +97,20 @@ const PomodoroTimer = () => {
   const progress = ((totalSeconds - (minutes * 60 + seconds)) / totalSeconds) * 100;
 
   return (
-    <Card className="p-6 bg-gradient-primary text-white border-0 shadow-lg">
-      <div className="text-center space-y-4">
-        <h2 className="text-2xl font-bold">Modo Foco</h2>
+    <div className="text-center space-y-4">
+      <h2 className="text-xl font-bold text-foreground mb-2">Modo Foco</h2>
+      
         
-        <Select value={level} onValueChange={handleLevelChange} disabled={isActive}>
-          <SelectTrigger className="w-full bg-white/10 border-white/20 text-white">
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="iniciante">🌱 Iniciante ({POMODORO_CONFIGS.iniciante.work} min)</SelectItem>
-            <SelectItem value="equilibrado">⚖️ Equilibrado ({POMODORO_CONFIGS.equilibrado.work} min)</SelectItem>
-            <SelectItem value="intenso">🔥 Intenso ({POMODORO_CONFIGS.intenso.work} min)</SelectItem>
-          </SelectContent>
-        </Select>
+      <Select value={level} onValueChange={handleLevelChange} disabled={isActive}>
+        <SelectTrigger className="w-full">
+          <SelectValue />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="iniciante">🌱 Iniciante ({POMODORO_CONFIGS.iniciante.work} min)</SelectItem>
+          <SelectItem value="equilibrado">⚖️ Equilibrado ({POMODORO_CONFIGS.equilibrado.work} min)</SelectItem>
+          <SelectItem value="intenso">🔥 Intenso ({POMODORO_CONFIGS.intenso.work} min)</SelectItem>
+        </SelectContent>
+      </Select>
         
         <div className="relative w-48 h-48 mx-auto">
           <svg className="transform -rotate-90 w-48 h-48">
@@ -190,8 +190,7 @@ const PomodoroTimer = () => {
             </DialogContent>
           </Dialog>
         )}
-      </div>
-    </Card>
+    </div>
   );
 };
 

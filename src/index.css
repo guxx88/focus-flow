@@ -161,4 +161,30 @@ All colors MUST be HSL.
   .stat-card {
     @apply glass rounded-2xl p-5;
   }
+
+  /* Staggered card animations */
+  @keyframes card-enter {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-card-enter {
+    animation: card-enter 0.5s ease-out forwards;
+    opacity: 0;
+  }
+
+  .animate-card-enter-1 { animation-delay: 0ms; }
+  .animate-card-enter-2 { animation-delay: 50ms; }
+  .animate-card-enter-3 { animation-delay: 100ms; }
+  .animate-card-enter-4 { animation-delay: 150ms; }
+  .animate-card-enter-5 { animation-delay: 200ms; }
+  .animate-card-enter-6 { animation-delay: 250ms; }
+  .animate-card-enter-7 { animation-delay: 300ms; }
+  .animate-card-enter-8 { animation-delay: 350ms; }
 }

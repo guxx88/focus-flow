@@ -5,18 +5,20 @@ const SplashScreen = ({ onComplete }: { onComplete: () => void }) => {
 
   useEffect(() => {
     const timers = [
-      setTimeout(() => setPhase("morph"), 2800),
-      setTimeout(() => setPhase("text"), 3800),
-      setTimeout(() => setPhase("fadeout"), 6200),
+      setTimeout(() => setPhase("morph"), 2600),
+      setTimeout(() => setPhase("text"), 4200),
+      setTimeout(() => setPhase("fadeout"), 6800),
       setTimeout(() => {
         setPhase("done");
         onComplete();
-      }, 7000),
+      }, 7600),
     ];
     return () => timers.forEach(clearTimeout);
   }, [onComplete]);
 
   if (phase === "done") return null;
+
+  const isMorphing = phase === "morph" || phase === "text" || phase === "fadeout";
 
   return (
     <div
@@ -24,53 +26,66 @@ const SplashScreen = ({ onComplete }: { onComplete: () => void }) => {
         phase === "fadeout" ? "opacity-0" : "opacity-100"
       }`}
     >
-      {/* Feather falling */}
-      <div className="relative flex items-center justify-center">
-        {/* Feather SVG */}
+      <div className="relative flex items-center justify-center" style={{ minHeight: 120 }}>
+        {/* Feather SVG — morphs into F */}
         <svg
-          viewBox="0 0 64 128"
-          className={`absolute w-16 h-32 splash-feather ${
-            phase === "morph" || phase === "text" || phase === "fadeout"
-              ? "splash-feather-hide"
-              : ""
-          }`}
+          viewBox="0 0 80 160"
+          className={`splash-feather ${isMorphing ? "splash-feather-morph" : ""}`}
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
+          style={{ width: 72, height: 144 }}
         >
+          {/* Main feather body */}
+          <defs>
+            <linearGradient id="featherGrad" x1="40" y1="0" x2="40" y2="160" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stopColor="hsl(var(--primary))" stopOpacity="0.7" />
+              <stop offset="50%" stopColor="hsl(var(--primary))" stopOpacity="1" />
+              <stop offset="100%" stopColor="hsl(var(--primary))" stopOpacity="0.6" />
+            </linearGradient>
+            <filter id="featherGlow">
+              <feGaussianBlur stdDeviation="2" result="glow" />
+              <feMerge>
+                <feMergeNode in="glow" />
+                <feMergeNode in="SourceGraphic" />
+              </feMerge>
+            </filter>
+          </defs>
+          {/* Outer feather shape */}
           <path
-            d="M32 4C32 4 12 28 12 56C12 72 18 88 24 100C28 108 30 116 32 124C34 116 36 108 40 100C46 88 52 72 52 56C52 28 32 4 32 4Z"
-            fill="hsl(var(--primary))"
-            opacity="0.9"
+            d="M40 6 C40 6 18 30 16 60 C14 85 20 105 28 120 C33 130 37 140 40 152 C43 140 47 130 52 120 C60 105 66 85 64 60 C62 30 40 6 40 6Z"
+            fill="url(#featherGrad)"
+            filter="url(#featherGlow)"
           />
+          {/* Left barbs */}
+          <path d="M40 20 C36 30 28 42 22 52 C20 56 19 62 20 68" stroke="hsl(var(--primary))" strokeWidth="0.6" opacity="0.4" fill="none" />
+          <path d="M40 40 C36 48 30 58 24 66 C22 70 21 76 22 82" stroke="hsl(var(--primary))" strokeWidth="0.6" opacity="0.3" fill="none" />
+          <path d="M40 60 C37 68 32 76 28 84 C26 88 25 92 26 98" stroke="hsl(var(--primary))" strokeWidth="0.6" opacity="0.25" fill="none" />
+          {/* Right barbs */}
+          <path d="M40 20 C44 30 52 42 58 52 C60 56 61 62 60 68" stroke="hsl(var(--primary))" strokeWidth="0.6" opacity="0.4" fill="none" />
+          <path d="M40 40 C44 48 50 58 56 66 C58 70 59 76 58 82" stroke="hsl(var(--primary))" strokeWidth="0.6" opacity="0.3" fill="none" />
+          <path d="M40 60 C43 68 48 76 52 84 C54 88 55 92 54 98" stroke="hsl(var(--primary))" strokeWidth="0.6" opacity="0.25" fill="none" />
+          {/* Central rachis (quill) */}
           <path
-            d="M32 4C32 4 22 32 22 56C22 72 26 88 30 100C31 104 31.5 108 32 112"
+            d="M40 8 C40 8 39 40 39 70 C39 95 39.5 120 40 150"
             stroke="hsl(var(--primary-foreground))"
-            strokeWidth="1.5"
-            opacity="0.5"
+            strokeWidth="1.2"
+            opacity="0.35"
             strokeLinecap="round"
           />
+          {/* Highlight on left */}
           <path
-            d="M32 20C28 32 24 44 24 56C24 68 27 80 30 90"
+            d="M30 40 C28 50 24 62 22 72"
             stroke="hsl(var(--primary-foreground))"
-            strokeWidth="0.8"
-            opacity="0.3"
-            strokeLinecap="round"
-          />
-          <path
-            d="M32 20C36 32 40 44 40 56C40 68 37 80 34 90"
-            stroke="hsl(var(--primary-foreground))"
-            strokeWidth="0.8"
-            opacity="0.3"
+            strokeWidth="0.5"
+            opacity="0.15"
             strokeLinecap="round"
           />
         </svg>
 
-        {/* The F letter that appears */}
+        {/* The F letter — fades in as feather morphs */}
         <span
-          className={`splash-letter-f text-6xl md:text-8xl font-bold tracking-tight ${
-            phase === "morph" || phase === "text" || phase === "fadeout"
-              ? "splash-f-show"
-              : "splash-f-hide"
+          className={`splash-letter-f text-7xl md:text-9xl font-bold tracking-tight absolute ${
+            isMorphing ? "splash-f-morph-in" : "splash-f-hide"
           }`}
           style={{ color: "hsl(var(--primary))" }}
         >
@@ -79,7 +94,7 @@ const SplashScreen = ({ onComplete }: { onComplete: () => void }) => {
 
         {/* "ocus Flow" text */}
         <span
-          className={`splash-rest-text text-6xl md:text-8xl font-bold tracking-tight ${
+          className={`splash-rest-text text-7xl md:text-9xl font-bold tracking-tight ${
             phase === "text" || phase === "fadeout"
               ? "splash-text-show"
               : "splash-text-hide"
@@ -100,14 +115,14 @@ const SplashScreen = ({ onComplete }: { onComplete: () => void }) => {
 
       {/* Subtle particles */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        {[...Array(6)].map((_, i) => (
+        {[...Array(8)].map((_, i) => (
           <div
             key={i}
             className="splash-particle"
             style={{
-              left: `${30 + Math.random() * 40}%`,
-              animationDelay: `${1.4 + i * 0.15}s`,
-              animationDuration: `${1 + Math.random() * 0.5}s`,
+              left: `${25 + Math.random() * 50}%`,
+              animationDelay: `${2.6 + i * 0.12}s`,
+              animationDuration: `${1.2 + Math.random() * 0.6}s`,
             }}
           />
         ))}

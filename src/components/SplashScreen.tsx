@@ -5,13 +5,13 @@ const SplashScreen = ({ onComplete }: { onComplete: () => void }) => {
 
   useEffect(() => {
     const timers = [
-      setTimeout(() => setPhase("morph"), 1400),
-      setTimeout(() => setPhase("text"), 2400),
-      setTimeout(() => setPhase("fadeout"), 4000),
+      setTimeout(() => setPhase("morph"), 2800),
+      setTimeout(() => setPhase("text"), 3800),
+      setTimeout(() => setPhase("fadeout"), 6200),
       setTimeout(() => {
         setPhase("done");
         onComplete();
-      }, 4800),
+      }, 7000),
     ];
     return () => timers.forEach(clearTimeout);
   }, [onComplete]);
@@ -87,14 +87,14 @@ const SplashScreen = ({ onComplete }: { onComplete: () => void }) => {
           style={{ color: "hsl(var(--foreground))" }}
         >
           <span className="splash-char" style={{ animationDelay: "0ms" }}>o</span>
-          <span className="splash-char" style={{ animationDelay: "60ms" }}>c</span>
-          <span className="splash-char" style={{ animationDelay: "120ms" }}>u</span>
-          <span className="splash-char" style={{ animationDelay: "180ms" }}>s</span>
-          <span className="splash-char" style={{ animationDelay: "280ms" }}>&nbsp;</span>
-          <span className="splash-char splash-flow" style={{ animationDelay: "380ms", color: "hsl(var(--primary))" }}>F</span>
-          <span className="splash-char splash-flow" style={{ animationDelay: "440ms", color: "hsl(var(--primary))" }}>l</span>
-          <span className="splash-char splash-flow" style={{ animationDelay: "500ms", color: "hsl(var(--primary))" }}>o</span>
-          <span className="splash-char splash-flow" style={{ animationDelay: "560ms", color: "hsl(var(--primary))" }}>w</span>
+          <span className="splash-char" style={{ animationDelay: "150ms" }}>c</span>
+          <span className="splash-char" style={{ animationDelay: "300ms" }}>u</span>
+          <span className="splash-char" style={{ animationDelay: "450ms" }}>s</span>
+          <span className="splash-char" style={{ animationDelay: "700ms" }}>&nbsp;</span>
+          <span className="splash-char splash-flow" style={{ animationDelay: "900ms", color: "hsl(var(--primary))" }}>F</span>
+          <span className="splash-char splash-flow" style={{ animationDelay: "1050ms", color: "hsl(var(--primary))" }}>l</span>
+          <span className="splash-char splash-flow" style={{ animationDelay: "1200ms", color: "hsl(var(--primary))" }}>o</span>
+          <span className="splash-char splash-flow" style={{ animationDelay: "1350ms", color: "hsl(var(--primary))" }}>w</span>
         </span>
       </div>
 

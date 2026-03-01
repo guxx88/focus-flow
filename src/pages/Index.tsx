@@ -12,6 +12,7 @@ import AnalyticsTab from "@/components/AnalyticsTab";
 import CalendarModule from "@/components/CalendarModule";
 import BrainDumpButton from "@/components/BrainDumpButton";
 import AIAssistant from "@/components/AIAssistant";
+import ThoughtsTab from "@/components/ThoughtsTab";
 import { useToast } from "@/hooks/use-toast";
 
 interface Task {
@@ -235,6 +236,10 @@ const Index = () => {
 
           {currentTab === "analytics" && (
             <AnalyticsTab tasks={tasks} />
+          )}
+
+          {currentTab === "thoughts" && (
+            <ThoughtsTab />
           )}
         </div>
       </div>

@@ -1,4 +1,4 @@
-import { Home, BarChart3, Calendar, Settings, HelpCircle, LogOut } from "lucide-react";
+import { Home, BarChart3, Calendar, Brain, HelpCircle, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -13,6 +13,7 @@ const Sidebar = ({ currentTab, onTabChange, onLogout }: SidebarProps) => {
     { id: "overview", icon: Home, label: "Visão Geral" },
     { id: "calendar", icon: Calendar, label: "Calendário" },
     { id: "analytics", icon: BarChart3, label: "Estatísticas" },
+    { id: "thoughts", icon: Brain, label: "Pensamentos" },
   ];
 
   return (

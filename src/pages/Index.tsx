@@ -2,7 +2,7 @@ import { useEffect, useState, useRef, useCallback } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useKeyboardShortcuts } from "@/hooks/useKeyboardShortcuts";
 import AuthForm from "@/components/AuthForm";
-import SplashScreen from "@/components/SplashScreen";
+
 import Sidebar from "@/components/Sidebar";
 import DashboardHeader from "@/components/DashboardHeader";
 import GlassCard from "@/components/GlassCard";
@@ -32,12 +32,12 @@ const Index = () => {
   const [userProfile, setUserProfile] = useState<any>(null);
   const [tasks, setTasks] = useState<Task[]>([]);
   const [loading, setLoading] = useState(true);
-  const [showSplash, setShowSplash] = useState(true);
+  
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [currentTab, setCurrentTab] = useState("overview");
   const quickAddRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
-  const handleSplashComplete = useCallback(() => setShowSplash(false), []);
+  
 
   const shortcuts = [
     {
@@ -185,9 +185,7 @@ const Index = () => {
   const completedTasks = filteredTasks.filter((t) => t.completed);
 
   return (
-    <>
-      {showSplash && <SplashScreen onComplete={handleSplashComplete} />}
-      <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background">
       {/* Sidebar */}
       <Sidebar 
         currentTab={currentTab} 
@@ -253,7 +251,6 @@ const Index = () => {
       <BrainDumpButton />
       <AIAssistant />
     </div>
-    </>
   );
 };
 

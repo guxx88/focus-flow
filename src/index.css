@@ -190,98 +190,89 @@ All colors MUST be HSL.
 
   /* Splash Screen Animations */
 
-  /* Feather falls with realistic swaying — gentle pendulum motion */
   @keyframes feather-fall {
     0% {
       opacity: 0;
-      transform: translateY(-320px) rotate(-20deg) translateX(0) scale(0.6);
+      transform: translate3d(0, -58vh, 0) rotate(-28deg) scale(0.58);
     }
-    6% {
+    8% {
       opacity: 1;
-      transform: translateY(-290px) rotate(-18deg) translateX(5px) scale(0.65);
+      transform: translate3d(0.8vw, -53vh, 0) rotate(-24deg) scale(0.62);
     }
-    14% {
-      transform: translateY(-240px) rotate(12deg) translateX(35px) scale(0.75);
+    18% {
+      transform: translate3d(4vw, -43vh, 0) rotate(22deg) scale(0.7);
     }
-    24% {
-      transform: translateY(-185px) rotate(-10deg) translateX(-28px) scale(0.82);
-    }
-    34% {
-      transform: translateY(-135px) rotate(8deg) translateX(22px) scale(0.88);
+    30% {
+      transform: translate3d(-3.3vw, -32vh, 0) rotate(-17deg) scale(0.79);
     }
     44% {
-      transform: translateY(-90px) rotate(-6deg) translateX(-16px) scale(0.93);
+      transform: translate3d(2.5vw, -22vh, 0) rotate(13deg) scale(0.87);
     }
-    54% {
-      transform: translateY(-52px) rotate(4deg) translateX(10px) scale(0.96);
+    58% {
+      transform: translate3d(-1.9vw, -13vh, 0) rotate(-9deg) scale(0.94);
     }
-    64% {
-      transform: translateY(-25px) rotate(-2.5deg) translateX(-6px) scale(0.98);
-    }
-    74% {
-      transform: translateY(-10px) rotate(1.5deg) translateX(3px) scale(0.99);
+    72% {
+      transform: translate3d(1vw, -6vh, 0) rotate(5deg) scale(0.98);
     }
     84% {
-      transform: translateY(-3px) rotate(-0.5deg) translateX(-1px) scale(1);
+      transform: translate3d(-0.45vw, -2.2vh, 0) rotate(-2.2deg) scale(1);
     }
     92% {
-      transform: translateY(1px) rotate(0.2deg) translateX(0.5px) scale(1);
+      transform: translate3d(0.2vw, -0.5vh, 0) rotate(0.8deg) scale(1);
     }
     100% {
       opacity: 1;
-      transform: translateY(0) rotate(0deg) translateX(0) scale(1);
+      transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
     }
   }
 
-  /* Feather shrinks, rotates, and fades as it becomes the F */
   @keyframes feather-morph {
     0% {
       opacity: 1;
-      transform: scale(1) rotate(0deg);
+      transform: translate3d(0, 0, 0) scale(1) rotate(0deg) skewX(0deg);
       filter: blur(0px);
     }
-    40% {
-      opacity: 0.7;
-      transform: scale(0.6) rotate(8deg);
-      filter: blur(1px);
+    36% {
+      opacity: 0.95;
+      transform: translate3d(-4px, 2px, 0) scaleX(0.62) scaleY(1.05) rotate(5deg) skewX(-8deg);
+      filter: blur(0.5px);
     }
-    70% {
-      opacity: 0.3;
-      transform: scale(0.3) rotate(12deg);
-      filter: blur(3px);
+    72% {
+      opacity: 0.72;
+      transform: translate3d(-8px, 6px, 0) scaleX(0.36) scaleY(1.08) rotate(7deg) skewX(-14deg);
+      filter: blur(1.4px);
     }
     100% {
-      opacity: 0;
-      transform: scale(0.15) rotate(15deg);
-      filter: blur(6px);
+      opacity: 0.18;
+      transform: translate3d(-10px, 10px, 0) scaleX(0.16) scaleY(1.1) rotate(8deg) skewX(-18deg);
+      filter: blur(2.8px);
     }
   }
 
-  /* F letter emerges from feather position */
   @keyframes f-morph-in {
     0% {
       opacity: 0;
-      transform: scale(2.5) rotate(-10deg);
-      filter: blur(12px);
-    }
-    30% {
-      opacity: 0.4;
-      transform: scale(1.4) rotate(-3deg);
+      transform: translate3d(-10px, 12px, 0) scaleX(0.18) scaleY(0.25) rotate(6deg);
       filter: blur(4px);
     }
-    60% {
-      opacity: 0.85;
-      transform: scale(1.06) rotate(0deg);
-      filter: blur(1px);
+    30% {
+      opacity: 0.55;
+      transform: translate3d(-8px, 8px, 0) scaleX(0.45) scaleY(0.58) rotate(3deg);
+      filter: blur(2.4px);
     }
-    80% {
+    58% {
+      opacity: 0.9;
+      transform: translate3d(-4px, 4px, 0) scaleX(0.78) scaleY(0.88) rotate(1deg);
+      filter: blur(0.9px);
+    }
+    78% {
       opacity: 1;
-      transform: scale(0.98);
+      transform: translate3d(-1px, 1px, 0) scale(1.03);
       filter: blur(0px);
     }
     100% {
       opacity: 1;
-      transform: scale(1) rotate(0deg);
+      transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
       filter: blur(0px);
     }
   }
@@ -289,12 +280,12 @@ All colors MUST be HSL.
   @keyframes char-appear {
     0% {
       opacity: 0;
-      transform: translateX(-10px) translateY(4px);
-      filter: blur(2px);
+      transform: translateX(-14px) translateY(6px);
+      filter: blur(2.2px);
     }
-    60% {
-      opacity: 0.8;
-      filter: blur(0px);
+    62% {
+      opacity: 0.82;
+      filter: blur(0.4px);
     }
     100% {
       opacity: 1;
@@ -306,36 +297,43 @@ All colors MUST be HSL.
   @keyframes particle-float {
     0% {
       opacity: 0;
-      transform: translateY(0) scale(0);
+      transform: translateY(4px) scale(0.4);
     }
-    30% {
-      opacity: 0.7;
-      transform: translateY(-30px) scale(1);
+    32% {
+      opacity: 0.62;
+      transform: translateY(-24px) scale(1);
     }
     100% {
       opacity: 0;
-      transform: translateY(-110px) scale(0.2);
+      transform: translateY(-98px) scale(0.25);
     }
   }
 
+  .splash-logo-stage {
+    will-change: transform;
+  }
+
   .splash-feather {
-    animation: feather-fall 2.6s cubic-bezier(0.35, 0.0, 0.25, 1) forwards;
+    animation: feather-fall 3.2s cubic-bezier(0.22, 0.78, 0.18, 1) forwards;
     opacity: 0;
-    transform-origin: center center;
+    transform-origin: 50% 92%;
+    will-change: transform, opacity, filter;
   }
 
   .splash-feather-morph {
-    animation: feather-morph 1.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    animation: feather-morph 1.7s cubic-bezier(0.2, 0.72, 0.15, 1) forwards;
   }
 
   .splash-f-hide {
     opacity: 0;
-    transform: scale(2.5);
-    filter: blur(12px);
+    transform: translate3d(-10px, 12px, 0) scaleX(0.18) scaleY(0.25);
+    filter: blur(4px);
+    transform-origin: 50% 88%;
   }
 
   .splash-f-morph-in {
-    animation: f-morph-in 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    animation: f-morph-in 1.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    transform-origin: 50% 88%;
   }
 
   .splash-text-hide {
@@ -345,17 +343,28 @@ All colors MUST be HSL.
   .splash-text-show .splash-char {
     display: inline-block;
     opacity: 0;
-    animation: char-appear 0.5s ease-out forwards;
+    animation: char-appear 0.72s cubic-bezier(0.22, 1, 0.36, 1) forwards;
   }
 
   .splash-particle {
     position: absolute;
-    width: 4px;
-    height: 4px;
+    width: 3px;
+    height: 3px;
     border-radius: 50%;
     background: hsl(var(--primary));
     opacity: 0;
-    animation: particle-float 1.4s ease-out forwards;
+    animation: particle-float 1.35s ease-out forwards;
     top: 50%;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .splash-feather,
+    .splash-feather-morph,
+    .splash-f-morph-in,
+    .splash-text-show .splash-char,
+    .splash-particle {
+      animation-duration: 10ms !important;
+      animation-iteration-count: 1 !important;
+    }
   }
 }

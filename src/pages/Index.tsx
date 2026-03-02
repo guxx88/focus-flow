@@ -14,6 +14,7 @@ import CalendarModule from "@/components/CalendarModule";
 import BrainDumpButton from "@/components/BrainDumpButton";
 import AIAssistant from "@/components/AIAssistant";
 import ThoughtsTab from "@/components/ThoughtsTab";
+import ExplosionOverlay from "@/components/ExplosionOverlay";
 import { useToast } from "@/hooks/use-toast";
 
 interface Task {
@@ -32,6 +33,7 @@ const Index = () => {
   const [userProfile, setUserProfile] = useState<any>(null);
   const [tasks, setTasks] = useState<Task[]>([]);
   const [loading, setLoading] = useState(true);
+  const [exploding, setExploding] = useState(true);
   
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [currentTab, setCurrentTab] = useState("overview");
@@ -186,18 +188,25 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      {/* Blue Explosion Overlay */}
+      {exploding && <ExplosionOverlay onComplete={() => setExploding(false)} />}
+
       {/* Sidebar */}
-      <Sidebar 
-        currentTab={currentTab} 
-        onTabChange={setCurrentTab} 
-        onLogout={handleLogout}
-      />
+      <div className={exploding ? "explode-sidebar" : ""}>
+        <Sidebar 
+          currentTab={currentTab} 
+          onTabChange={setCurrentTab} 
+          onLogout={handleLogout}
+        />
+      </div>
 
       {/* Main Content Area with left margin for sidebar */}
       <div className="ml-20 min-h-screen">
         <div className="max-w-[1600px] mx-auto p-6 md:p-8 space-y-6">
           {/* Header */}
-          <DashboardHeader userName={userProfile?.full_name || user?.email || "Usuário"} />
+          <div className={exploding ? "explode-item explode-item-1" : ""}>
+            <DashboardHeader userName={userProfile?.full_name || user?.email || "Usuário"} />
+          </div>
 
           {/* Keyboard Shortcuts Help */}
           <ShortcutsHelp />
@@ -207,24 +216,28 @@ const Index = () => {
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
               <div className="lg:col-span-2 space-y-6">
                 {/* Quick Add */}
-                <GlassCard>
-                  <h2 className="text-xl font-bold mb-4">Adicionar Nova Tarefa</h2>
-                  <QuickAddInput onTaskAdded={loadTasks} inputRef={quickAddRef} />
-                </GlassCard>
+                <div className={exploding ? "explode-item explode-item-2" : ""}>
+                  <GlassCard>
+                    <h2 className="text-xl font-bold mb-4">Adicionar Nova Tarefa</h2>
+                    <QuickAddInput onTaskAdded={loadTasks} inputRef={quickAddRef} />
+                  </GlassCard>
+                </div>
 
                 {/* Overview Content */}
-                <OverviewTab
-                  activeTasks={activeTasks}
-                  completedTasks={completedTasks}
-                  completedToday={completedToday}
-                  totalTimeToday={totalTimeToday}
-                  currentStreak={currentStreak}
-                  onTaskUpdate={loadTasks}
-                />
+                <div className={exploding ? "explode-item explode-item-3" : ""}>
+                  <OverviewTab
+                    activeTasks={activeTasks}
+                    completedTasks={completedTasks}
+                    completedToday={completedToday}
+                    totalTimeToday={totalTimeToday}
+                    currentStreak={currentStreak}
+                    onTaskUpdate={loadTasks}
+                  />
+                </div>
               </div>
 
               {/* Pomodoro Timer */}
-              <div className="lg:col-span-1">
+              <div className={`lg:col-span-1 ${exploding ? "explode-item explode-item-4" : ""}`}>
                 <GlassCard>
                   <h2 className="text-xl font-bold mb-4">Foco Total</h2>
                   <PomodoroTimer />
@@ -248,8 +261,12 @@ const Index = () => {
       </div>
 
       {/* Floating Buttons */}
-      <BrainDumpButton />
-      <AIAssistant />
+      <div className={exploding ? "explode-item explode-item-5" : ""}>
+        <BrainDumpButton />
+      </div>
+      <div className={exploding ? "explode-item explode-item-6" : ""}>
+        <AIAssistant />
+      </div>
     </div>
   );
 };

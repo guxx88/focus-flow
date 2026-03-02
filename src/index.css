@@ -188,4 +188,158 @@ All colors MUST be HSL.
   .animate-card-enter-7 { animation-delay: 300ms; }
   .animate-card-enter-8 { animation-delay: 350ms; }
 
+  /* === Explosion Intro Animation === */
+  
+  /* Blue explosion burst from center */
+  @keyframes explosion-ring {
+    0% {
+      transform: scale(0);
+      opacity: 0.9;
+      border-width: 6px;
+    }
+    60% {
+      opacity: 0.5;
+    }
+    100% {
+      transform: scale(4);
+      opacity: 0;
+      border-width: 1px;
+    }
+  }
+
+  @keyframes explosion-flash {
+    0% {
+      opacity: 0.7;
+      transform: scale(0);
+    }
+    30% {
+      opacity: 0.4;
+    }
+    100% {
+      opacity: 0;
+      transform: scale(3);
+    }
+  }
+
+  @keyframes particle-burst {
+    0% {
+      transform: translate(0, 0) scale(1);
+      opacity: 1;
+    }
+    100% {
+      transform: translate(var(--px), var(--py)) scale(0);
+      opacity: 0;
+    }
+  }
+
+  /* Elements fly from center */
+  @keyframes explode-from-center {
+    0% {
+      opacity: 0;
+      transform: translate(var(--start-x), var(--start-y)) scale(0.3);
+      filter: blur(8px) brightness(2);
+    }
+    40% {
+      opacity: 1;
+      filter: blur(2px) brightness(1.5);
+    }
+    70% {
+      transform: translate(0, 0) scale(1.03);
+      filter: blur(0) brightness(1.1);
+    }
+    100% {
+      opacity: 1;
+      transform: translate(0, 0) scale(1);
+      filter: blur(0) brightness(1);
+    }
+  }
+
+  /* Sidebar slides from center-left */
+  @keyframes sidebar-explode {
+    0% {
+      opacity: 0;
+      transform: translateX(40vw) scale(0.2);
+      filter: blur(10px) brightness(2);
+    }
+    50% {
+      opacity: 1;
+      filter: blur(2px) brightness(1.3);
+    }
+    80% {
+      transform: translateX(-5px) scale(1.01);
+    }
+    100% {
+      opacity: 1;
+      transform: translateX(0) scale(1);
+      filter: blur(0) brightness(1);
+    }
+  }
+
+  .explode-sidebar {
+    animation: sidebar-explode 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    opacity: 0;
+    animation-delay: 0.3s;
+  }
+
+  .explode-item {
+    animation: explode-from-center 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    opacity: 0;
+  }
+
+  .explode-item-1 { --start-x: -30vw; --start-y: 30vh; animation-delay: 0.35s; }
+  .explode-item-2 { --start-x: 20vw;  --start-y: 40vh; animation-delay: 0.4s; }
+  .explode-item-3 { --start-x: -25vw; --start-y: -20vh; animation-delay: 0.45s; }
+  .explode-item-4 { --start-x: 30vw;  --start-y: -30vh; animation-delay: 0.5s; }
+  .explode-item-5 { --start-x: -15vw; --start-y: 25vh; animation-delay: 0.55s; }
+  .explode-item-6 { --start-x: 25vw;  --start-y: 20vh; animation-delay: 0.6s; }
+
+  /* Explosion overlay */
+  .explosion-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .explosion-ring {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 4px solid hsl(220 90% 56%);
+    animation: explosion-ring 0.8s ease-out forwards;
+  }
+
+  .explosion-ring-2 {
+    animation-delay: 0.1s;
+    border-color: hsl(200 100% 60%);
+  }
+
+  .explosion-ring-3 {
+    animation-delay: 0.2s;
+    border-color: hsl(260 85% 65%);
+  }
+
+  .explosion-flash-circle {
+    position: absolute;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: radial-gradient(circle, hsl(220 90% 60% / 0.6), hsl(220 90% 56% / 0) 70%);
+    animation: explosion-flash 0.6s ease-out forwards;
+  }
+
+  .explosion-particle {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: hsl(220 90% 65%);
+    animation: particle-burst 0.7s ease-out forwards;
+    animation-delay: 0.05s;
+  }
+
 }

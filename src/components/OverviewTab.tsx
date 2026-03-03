@@ -1,6 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Clock, CheckCircle2, ListTodo, Flame } from "lucide-react";
 import TaskCard from "./TaskCard";
+import GlassCard from "./GlassCard";
 
 interface Task {
   id: string;
@@ -34,7 +35,7 @@ export default function OverviewTab({
     <div className="space-y-6">
       {/* Stats Grid */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <div className="stat-card">
+        <GlassCard animationIndex={1}>
           <div className="flex items-center gap-3 mb-3">
             <div className="w-10 h-10 rounded-xl bg-success/20 flex items-center justify-center">
               <CheckCircle2 className="w-5 h-5 text-success" />
@@ -42,9 +43,9 @@ export default function OverviewTab({
           </div>
           <p className="text-3xl font-bold text-foreground mb-1">{completedToday}</p>
           <p className="text-sm text-muted-foreground">Concluídas Hoje</p>
-        </div>
+        </GlassCard>
 
-        <div className="stat-card">
+        <GlassCard animationIndex={2}>
           <div className="flex items-center gap-3 mb-3">
             <div className="w-10 h-10 rounded-xl bg-teal/20 flex items-center justify-center">
               <Clock className="w-5 h-5 text-teal" />
@@ -52,9 +53,9 @@ export default function OverviewTab({
           </div>
           <p className="text-3xl font-bold text-foreground mb-1">{totalTimeToday}<span className="text-lg text-muted-foreground ml-1">min</span></p>
           <p className="text-sm text-muted-foreground">Tempo Focado</p>
-        </div>
+        </GlassCard>
 
-        <div className="stat-card">
+        <GlassCard animationIndex={3}>
           <div className="flex items-center gap-3 mb-3">
             <div className="w-10 h-10 rounded-xl bg-urgent/20 flex items-center justify-center">
               <ListTodo className="w-5 h-5 text-urgent" />
@@ -62,9 +63,9 @@ export default function OverviewTab({
           </div>
           <p className="text-3xl font-bold text-foreground mb-1">{activeTasks.length}</p>
           <p className="text-sm text-muted-foreground">Tarefas Restantes</p>
-        </div>
+        </GlassCard>
 
-        <div className="stat-card">
+        <GlassCard animationIndex={4}>
           <div className="flex items-center gap-3 mb-3">
             <div className="w-10 h-10 rounded-xl bg-primary/20 flex items-center justify-center">
               <Flame className="w-5 h-5 text-primary" />
@@ -72,7 +73,7 @@ export default function OverviewTab({
           </div>
           <p className="text-3xl font-bold text-foreground mb-1">{currentStreak}<span className="text-lg text-muted-foreground ml-1">dias</span></p>
           <p className="text-sm text-muted-foreground">Sequência</p>
-        </div>
+        </GlassCard>
       </div>
 
       {/* Active Tasks */}

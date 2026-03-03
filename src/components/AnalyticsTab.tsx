@@ -2,6 +2,7 @@ import { useState, useMemo } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight, TrendingUp } from "lucide-react";
+import GlassCard from "./GlassCard";
 import { startOfWeek, endOfWeek, eachDayOfInterval, format, subWeeks, addWeeks, startOfMonth, endOfMonth, subMonths, addMonths, startOfYear, endOfYear, subYears, addYears } from "date-fns";
 import { ptBR } from "date-fns/locale";
 
@@ -81,6 +82,7 @@ export default function AnalyticsTab({ tasks }: AnalyticsTabProps) {
   return (
     <div className="space-y-6">
       {/* Controls */}
+      <GlassCard animationIndex={1}>
       <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
         <div className="flex gap-2">
           <Button
@@ -118,55 +120,41 @@ export default function AnalyticsTab({ tasks }: AnalyticsTabProps) {
           </Button>
         </div>
       </div>
+      </GlassCard>
 
       {/* Stats Summary */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <Card>
-          <CardHeader className="pb-3">
-            <CardTitle className="text-sm font-medium text-muted-foreground">Total</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-3xl font-bold bg-gradient-primary bg-clip-text text-transparent">
-              {totalCompleted}
-            </p>
-            <p className="text-xs text-muted-foreground mt-1">tarefas concluídas</p>
-          </CardContent>
-        </Card>
+        <GlassCard animationIndex={2}>
+          <p className="text-sm font-medium text-muted-foreground mb-2">Total</p>
+          <p className="text-3xl font-bold bg-gradient-primary bg-clip-text text-transparent">
+            {totalCompleted}
+          </p>
+          <p className="text-xs text-muted-foreground mt-1">tarefas concluídas</p>
+        </GlassCard>
 
-        <Card>
-          <CardHeader className="pb-3">
-            <CardTitle className="text-sm font-medium text-muted-foreground">Média</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-3xl font-bold bg-gradient-success bg-clip-text text-transparent">
-              {avgCompleted}
-            </p>
-            <p className="text-xs text-muted-foreground mt-1">por dia</p>
-          </CardContent>
-        </Card>
+        <GlassCard animationIndex={3}>
+          <p className="text-sm font-medium text-muted-foreground mb-2">Média</p>
+          <p className="text-3xl font-bold bg-gradient-success bg-clip-text text-transparent">
+            {avgCompleted}
+          </p>
+          <p className="text-xs text-muted-foreground mt-1">por dia</p>
+        </GlassCard>
 
-        <Card>
-          <CardHeader className="pb-3">
-            <CardTitle className="text-sm font-medium text-muted-foreground">Melhor Dia</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-3xl font-bold bg-gradient-urgent bg-clip-text text-transparent">
-              {maxCompleted}
-            </p>
-            <p className="text-xs text-muted-foreground mt-1">tarefas em 1 dia</p>
-          </CardContent>
-        </Card>
+        <GlassCard animationIndex={4}>
+          <p className="text-sm font-medium text-muted-foreground mb-2">Melhor Dia</p>
+          <p className="text-3xl font-bold bg-gradient-urgent bg-clip-text text-transparent">
+            {maxCompleted}
+          </p>
+          <p className="text-xs text-muted-foreground mt-1">tarefas em 1 dia</p>
+        </GlassCard>
       </div>
 
       {/* Chart */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <TrendingUp className="w-5 h-5 text-primary" />
-            Atividade do Período
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
+      <GlassCard animationIndex={5}>
+        <h3 className="text-lg font-semibold flex items-center gap-2 mb-4">
+          <TrendingUp className="w-5 h-5 text-primary" />
+          Atividade do Período
+        </h3>
           <div className="space-y-3">
             {viewMode === "week" && (
               <div className="flex items-end justify-between gap-2 h-64">
@@ -216,8 +204,7 @@ export default function AnalyticsTab({ tasks }: AnalyticsTabProps) {
               </div>
             )}
           </div>
-        </CardContent>
-      </Card>
+      </GlassCard>
     </div>
   );
 }

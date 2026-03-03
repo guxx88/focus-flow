@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { CheckCircle2, Circle, Clock } from "lucide-react";
 import { format, isSameDay } from "date-fns";
+import GlassCard from "./GlassCard";
 
 interface Task {
   id: string;
@@ -61,11 +62,9 @@ const CalendarModule = ({ tasks }: CalendarModuleProps) => {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
       {/* Calendar */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Calendário</CardTitle>
-        </CardHeader>
-        <CardContent className="flex justify-center">
+      <GlassCard animationIndex={1}>
+        <h3 className="text-lg font-semibold mb-4">Calendário</h3>
+        <div className="flex justify-center">
           <Calendar
             mode="single"
             selected={selectedDate}
@@ -81,20 +80,17 @@ const CalendarModule = ({ tasks }: CalendarModuleProps) => {
               },
             }}
           />
-        </CardContent>
-      </Card>
+        </div>
+      </GlassCard>
 
       {/* Tasks for Selected Date */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center justify-between">
-            <span>{format(selectedDate, "d 'de' MMMM, yyyy")}</span>
-            <Badge variant="outline">
-              {stats.completed}/{stats.total} concluídas
-            </Badge>
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
+      <GlassCard animationIndex={2}>
+        <div className="flex items-center justify-between mb-4">
+          <h3 className="text-lg font-semibold">{format(selectedDate, "d 'de' MMMM, yyyy")}</h3>
+          <Badge variant="outline">
+            {stats.completed}/{stats.total} concluídas
+          </Badge>
+        </div>
           {selectedDateTasks.length === 0 ? (
             <p className="text-muted-foreground text-center py-8">
               Nenhuma tarefa nesta data
@@ -136,8 +132,7 @@ const CalendarModule = ({ tasks }: CalendarModuleProps) => {
               ))}
             </div>
           )}
-        </CardContent>
-      </Card>
+      </GlassCard>
     </div>
   );
 };
